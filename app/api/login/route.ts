@@ -18,31 +18,31 @@ export interface User {
   ];
 
 
-export async function POST (req: NextRequest, res: NextResponse) {
-
+export async function POST (req: NextRequest) {
          
     const body = await req.json();
     const {email, pw } = body;
 
+    console.log(email,pw)
 
   const user = users.find((user)=>user.email===email);
 
   if(!user){
-    return NextResponse.json({Error: "user not found"});
+    return NextResponse.json({Error: "user not found", status: 404});
   }
 
   const passwordCheck = await bcrypt.compare(pw,user.password);
   
   if (!passwordCheck){
-    return NextResponse.json({Error: "Password dont match"});
+    return NextResponse.json({Error: "Password dont match", status: 404});
   }
 
   const token = jwt.sign({id:user.id, email: user.email}, 
     process.env.JWT_SECRET as string,
   { 
-    expiresIn: '1h'
+    expiresIn: 30
   });
 
-return NextResponse.json({token: token})
+return NextResponse.json({token: token}, {status: 200})
    
 }
