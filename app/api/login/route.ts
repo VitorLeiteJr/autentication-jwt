@@ -26,8 +26,6 @@ export async function POST (req: NextRequest) {
     const body = await req.json();
     const {email, pw } = body;
 
-    console.log(email,pw)
-
   const user = users.find((user)=>user.email===email);
 
   if(!user){
@@ -43,7 +41,7 @@ export async function POST (req: NextRequest) {
   const token = jwt.sign({id:user.id, email: user.email}, 
     process.env.JWT_SECRET as string,
   { 
-    expiresIn: 30
+    expiresIn: 60
   });
 
 const tokenData = {

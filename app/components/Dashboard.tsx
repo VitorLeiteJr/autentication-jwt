@@ -1,5 +1,5 @@
 'use client'
-import { isTokenValid } from '@/util/authJWT';
+import { isJwt, isTokenValid } from '@/util/authJWT';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
@@ -15,7 +15,7 @@ const Dashboard = ({nickName, id}: dashboardProps) => {
   
     useEffect(()=>{
       const token = localStorage.getItem("token") as string;
-      if(token && isTokenValid(token)){
+         if(token && isTokenValid(token) && isJwt(token)){
         setIsAutenticate(true);
       }
       else {

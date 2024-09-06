@@ -1,5 +1,8 @@
+
 import jwt, { JwtPayload } from "jsonwebtoken"
 
+
+//const JWT_SECRET = process.env.JWT_SECRET || 'sa109dmdcloitj1z';
 
 export const tokenValidation = (token: string): JwtPayload | any => {
 
@@ -13,9 +16,24 @@ export const tokenValidation = (token: string): JwtPayload | any => {
 
 export const isTokenValid= (token: string) =>{
 
-const decoded = tokenValidation(token);
-if(!decoded) return false;
+const decodedTime = tokenValidation(token);
+if(!decodedTime) return false;
 
 const currentTime= Date.now()/1000;// get time in seconds
-return decoded.exp ? decoded.exp > currentTime : false;
+return decodedTime.exp ? decodedTime.exp > currentTime : false;
+}
+
+
+export const isJwt =(token: string) =>{
+   
+try{
+       const decodedJWT =  jwt.verify(token, process.env.JWT_SECRET || 'sa109dmdcloitj1z');
+       //if(!decodedJWT) return false;
+       
+       return decodedJWT;
+    }catch(e){
+        return false;
+    }
+
+      
 }
