@@ -4,8 +4,11 @@ import Dashboard from "../components/Dashboard";
 
 const DashboardPage = () => {
 
-  const nickName = String(cookies().get("nickName"));
+  const nickName = cookies().get("nickName")?.value;
   
+  
+
+  console.log(nickName);
  return <Dashboard 
   nickName={nickName}
   id={1}
