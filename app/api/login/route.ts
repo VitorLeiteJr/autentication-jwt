@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
+import { cookies } from "next/headers";
 
 export interface User {
     id: number;
     email: string;
+    nickName: string;
     password: string; 
   }
   
@@ -12,6 +14,7 @@ export interface User {
     {
       id: 1,
       email: 'vitor',
+      nickName: 'Paulo Carucio',
       password: '$2a$12$jiyRzpOkkC/XBqo5y1FQI..BsLovQrl95HKitMPaeYIls0C9lHcdO', // bcrypt hash for 'password123'
     },
 
@@ -43,6 +46,12 @@ export async function POST (req: NextRequest) {
     expiresIn: 30
   });
 
-return NextResponse.json({token: token}, {status: 200})
+const tokenData = {
+  username: user.nickName,
+  token: token
+  }
+  
+  cookies().set('nickName', user.nickName);
+return NextResponse.json({tokenData: tokenData}, {status: 200});
    
 }

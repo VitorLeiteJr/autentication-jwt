@@ -16,11 +16,12 @@ const LoginPage = () => {
     
 
    const sendCredentials = await axios.post("/api/login", {email,pw});
-  
-   if(!sendCredentials.data.token){
+
+   if(sendCredentials.data.Error){
     alert("something wrong");
    }else{
-    localStorage.setItem("token", sendCredentials.data.token)
+    localStorage.setItem("token", sendCredentials.data.tokenData.token);
+    
     route.push('/dashboard');
    }
    }
